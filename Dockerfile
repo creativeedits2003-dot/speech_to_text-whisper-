@@ -1,30 +1,27 @@
-
-# Use slim Python base
 FROM python:3.10-slim
 
-# avoid Debian prompts
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install system deps (ffmpeg, build tools)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ffmpeg \
-    build-essential \
-    libsndfile1 \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set working dir
+# Set working directory
 WORKDIR /app
 
-# Copy requirements and app
+# Install system packages for sounddevice, ffmpeg, and whisper
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    ffmpeg \
+    portaudio19-dev \
+    libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy files
+COPY requirements.txt .
+
+# Upgrade pip & install Python deps
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install -r requirements.txt
+
+# Copy app code
 COPY . .
 
-# Install python deps
-# Note: we install a CPU-only torch wheel via the official index link below.
-RUN pip install --upgrade pip setuptools wheel \
- && pip install -r /app/requirements.txt
-
-# Expose port (Render sets PORT env)
+# Expose port for Gradio
 EXPOSE 7860
 
 # Run the app
