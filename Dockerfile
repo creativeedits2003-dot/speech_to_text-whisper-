@@ -17,8 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # Copy requirements and app
-COPY requirements.txt /app/requirements.txt
-COPY app.py /app/app.py
+COPY . .
 
 # Install python deps
 # Note: we install a CPU-only torch wheel via the official index link below.
