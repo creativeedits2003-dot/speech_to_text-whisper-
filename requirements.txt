@@ -1,8 +1,6 @@
-gradio>=3.0
-sounddevice>=0.4.6
-numpy
-python-docx
+gradio==4.44.0
 openai-whisper
-# CPU-only torch. This URL is the official PyTorch index for stable wheels.
-# If this fails, adjust to the correct torch version / OS.
-torch==2.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
+numpy==1.26.4
+sounddevice==0.4.7
+python-docx==1.1.0
+ffmpeg-python==0.2.0
